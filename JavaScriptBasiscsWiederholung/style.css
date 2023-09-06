@@ -1,0 +1,23 @@
+.rainbow-text {
+    background-image: linear-gradient(
+        to left,
+        rgb(61, 219, 82),
+        rgb(22, 22, 22),
+        rgb(22, 230, 74),
+        rgb(25, 233, 25),
+        rgb(23, 224, 23),
+        rgb(26, 25, 25),
+        rgb(39, 241, 72)
+    );
+    text-align: center;
+    top: auto;
+    left: auto;
+}
+#h1 {
+}
+#body1 {
+    background: rgb(61, 219, 82);
+}
+.Klass {
+    color: black;
+}
