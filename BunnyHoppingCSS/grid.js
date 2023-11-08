@@ -2,21 +2,18 @@ var bunny = document.querySelector("#bunny");
 var root = document.querySelector("#root");
 
 function abc() {
-    a = 1;
-    b = 1;
     const avs = setInterval(function () {
-        a++;
-        console.log(a % 7);
-        if (a % 7 != 0) {
-            bunny.style.gridColumnStart = a % 7;
-        }
-        if (a % 7 == 0) {
-            b++;
-            bunny.style.gridColumnStart = 1;
-        }
-        if (b == 8 && a % 7 == 6) {
-            clearInterval(avs);
-        }
-        bunny.style.gridRowStart = b;
-    }, 200);
+        bunny.style.gridColumnStart = Math.round(Math.random() * (7 - 1) + 1);
+        bunny.style.gridRowStart = Math.round(Math.random() * (7 - 1) + 1);
+        alert("ALARM!!!");
+    }, 1);
+
+    let colors = ["red", "yellow", "blue", "green", "orange"];
+
+    setInterval(() => {
+        document.body.style.setProperty(
+            "--bgColor",
+            colors[Math.floor(Math.random() * 5)]
+        );
+    }, 1);
 }

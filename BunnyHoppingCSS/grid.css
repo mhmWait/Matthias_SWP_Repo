@@ -1,9 +1,28 @@
 #root {
     display: grid;
-    grid-template: repeat(7, 7em) / repeat(7, 7em);
+    grid-template: repeat(7, 1fr) / repeat(7, 1fr);
 }
 #root > * {
     background: #eee;
     border: 1px solid #aaa;
     padding: 1em;
+}
+:root {
+    --bgColor: var(--bgColor);
+}
+
+body {
+    background-color: var(--bgColor);
+    animation: colorChange 0.5s alternate infinite;
+}
+
+@keyframes colorChange {
+    to {
+        opacity: 0;
+    }
+
+    from {
+        opacity: 1;
+        background-color: var(--bgColor);
+    }
 }
