@@ -1,1 +1,7 @@
-.h1
+h1 {
+    text-align: center;
+    font-family: Comic Sans MS, VERDANA, ARIAL, HELVETICA;
+}
+button {
+    font-family: Comic Sans MS, VERDANA, ARIAL, HELVETICA;
+}
