@@ -1,5 +1,5 @@
 const apiBase = "https://pokeapi.co/api/v2/pokemon/";
-const game = document.getElementById("game");
+const game1 = document.getElementById("games");
 
 loadPokemon = async () => {
     const ids = new Set();
@@ -13,19 +13,24 @@ loadPokemon = async () => {
 };
 
 const displayPoke = (pokemon) => {
-    pokemon.sort(_ => Math.random() - 0.5);
+    pokemon.sort( _ => Math.random() - 0.5);
     const pokeHTML = pokemon.map(pokemon => {
-            return `
-            < div class = "card" >
-            <h2>${pokemon.name}</h2>
-            </div >
-            `
-    }).join("");
-    game.innterHTML = pokeHTML;
+        return `
+        <div class="card">
+            <div class="front">
+            </div> 
+            <div class="back">
+                <h2>${pokemon.name}</h2> 
+            </div> 
+        </div>`
+    }).join(``);
+    game1.innerHTML = pokeHTML;
+    
 };
 
 const resetGame = async () => {
     const pokemon = await loadPokemon();
+    console.log(pokemon)
     displayPoke([...pokemon, ...pokemon]);
 };
 
