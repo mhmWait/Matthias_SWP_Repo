@@ -16,4 +16,4 @@ function abc() {
             colors[Math.floor(Math.random() * 5)]
         );
     }, 1);
-}Test
+}
