@@ -1,0 +1,5 @@
+datascource db{
+    provider = "sqlite"
+    url = "data"
+}
+
