@@ -1,13 +1,13 @@
-#root {
+body{
     display: grid;
     grid-template: repeat(7, 1fr) / repeat(7, 1fr);
 }
-#root > * {
+body> * {
     background: #eee;
     border: 1px solid #aaa;
     padding: 1em;
 }
-:root {
+:body {
     --bgColor: var(--bgColor);
 }
 

@@ -1,9 +1,11 @@
 const pokeAPIBaseUrl = "https://pokeapi.co/api/v2/pokemon/";
 const game = document.getElementById('game');
+const Score = document.getElementById('score');
 
 let firstPick;
 let isPaused = true;
 let matches;
+let score;
 
 const colors = {
 	fire: '#FDDFDF',
@@ -38,6 +40,8 @@ const resetGame = async() => {
     isPaused = true;
     firstPick = null;
     matches = 0;
+    score = 0;
+    Score.innerHTML = score;
     setTimeout(async () => {
         const loadedPokemon = await loadPokemon();
         displayPokemon([...loadedPokemon, ...loadedPokemon]);
@@ -87,8 +91,11 @@ const clickCard = (e) => {
             }, 500)    
         }else {
             matches++;
+            score += 100;
+            Score.innerHTML = score;
             if(matches === 8) {
-                console.log("WINNER");
+                alert("WINNER");
+                resetGame();
             }
             firstPick = null;
             isPaused = false;
