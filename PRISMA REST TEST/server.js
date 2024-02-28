@@ -6,11 +6,11 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/User', async (req, res) => {
+app.post('/users', async (req, res) => {
     const { username } = req.body;
     const user = await prisma.user.create({
         data: {
-            username,
+            username: username,
         },
     });
     res.json(user);
