@@ -19,36 +19,45 @@ class fakeSong {
 }
 
 async function main() {
-    for (let i = 0; i < 100; i++) {
+    await prisma.playlist.deleteMany();
+    await prisma.song.deleteMany();
+    await prisma.user.deleteMany();
+
+    for (let i = 0; i < 5; i++) {
         const user = new fakeuser();
         const prismaUser = await prisma.user.create({
             data: user,
-                
         });
     }
     const userIds = (await prisma.user.findMany({ select: { id: true } })).map(
         (_) => _.id
     );
+    for (let i = 0; i < 5; i++) {
+        const user = new fakeuser();
+        const prismaUser = await prisma.user.create({
+            data: user,
+        });
+    }
+    console.log(userIds.length+" users created");
 
-    console.log('100 users created');
-
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10; i++) {
         const song = new fakeSong();
         const prismaSong = await prisma.song.create({
             data: song,
         });
     }
-    console.log('10000 songs created');
-
+    
     const songIds = (
         await prisma.song.findMany({ select: { id: true } })
     ).map((_) => _.id);
 
+    console.log(songIds.length + ' songs created');
+
     for (uid of userIds) {
-        const playSongs = faker.number.int({min: 1, max: 200});
+        const playSongs = 3; //faker.number.int({min: 1, max: 5}); 
         const songsPlaylist = new Set();
 
-        for (let i = 0; i < playSongs; i++) {
+        for (let i = 0; i < playSongs; i++) { // Songs Playlist ist ein set wo playSongs viele Songids drin sind
             songsPlaylist.add(
                 songIds[faker.number.int({min: 0, max: songIds.length - 1})]
             );
@@ -58,11 +67,13 @@ async function main() {
                 data: {
                     userId: uid,
                     song: {
-                        connect: { id: i },
+                        create: {
                     },
                     name: faker.lorem.words(3),
                 },
             });
+
+
         
         }
         
