@@ -22,6 +22,15 @@ app.get('/users', async (req, res) => {
     const user = await prisma.user.findMany();
     res.json(user);
 });
+app.get('/usershtml', async (req, res) => {
+    const user = await prisma.user.findMany({ select: { username: true } });
+    rw = '<ul>\n';
+    user.forEach((element) => {
+        rw += '<li>' + element.username + '</li>\n';
+    });
+    rw += '</ul>';
+    res.send(rw);
+});
 
 app.get('/songs', async (req, res) => {
     const songs = await prisma.song.findMany();
