@@ -3,8 +3,10 @@ const express = require('express');
 
 const prisma = new PrismaClient();
 const app = express();
+const cors = require('cors');
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/users', async (req, res) => {
     const { username } = req.body;
@@ -21,7 +23,7 @@ app.get('/users', async (req, res) => {
     res.json(user);
 });
 
-app.get('/movies', async (req, res) => {
+app.get('/songs', async (req, res) => {
     const songs = await prisma.song.findMany();
     res.json(songs);
 });
