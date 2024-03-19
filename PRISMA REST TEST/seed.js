@@ -1,6 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { faker } = require('@faker-js/faker');
+const { faker } = require("@faker-js/faker");
+
 class fakeuser {
     constructor() {
         this.username = faker.person.fullName();
@@ -32,14 +33,13 @@ async function main() {
             data: user,
         });
     }
-    console.log(userIds.length + ' users created');
+    console.log(userIds.length + " users created");
     for (let i = 0; i < 1000; i++) {
         const song = new fakeSong();
         const prismaSong = await prisma.song.create({
             data: song,
         });
     }
-    
 
     for (let i = 0; i < 50; i++) {
         await prisma.playlist.create({
@@ -55,12 +55,12 @@ async function main() {
     const playlistIds = (
         await prisma.playlist.findMany({ select: { id: true } })
     ).map((_) => _.id);
-    console.log(playlistIds.length + ' playlists created');
+    console.log(playlistIds.length + " playlists created");
 
     const songIds = (await prisma.song.findMany({ select: { id: true } })).map(
         (_) => _.id
     );
-    console.log(songIds.length + ' songs created');
+    console.log(songIds.length + " songs created");
 
     for (let i = 0; i < 2000; i++) {
         await prisma.playlist.update({
@@ -85,11 +85,10 @@ async function main() {
     }
 }
 
-
 main()
     .then(() => {
         prisma.$disconnect();
-        console.log('done');
+        console.log("done");
     })
     .catch((e) => {
         console.error(e.message);

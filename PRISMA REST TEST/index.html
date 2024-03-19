@@ -4,16 +4,16 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <script src="script.js" defer></script>
-        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <button onclick="getDatabase()">RUN DATABASE GET</button>
-        <select name="" id="input1">
-            <option value="users">Users</option>
-            <option value="playlists">Playlists</option>
-            <option value="songs">Songs</option>
-        </select>
-        <table id="output"></table>
+        <input
+            type="text"
+            name="q"
+            hx-get="http://localhost:3000/users"
+            hx-trigger="click[ctrlKey]"
+            hx-target="#search-results"
+            placeholder="Search..."
+        />
+        <div id="search-results"></div>
     </body>
 </html>
