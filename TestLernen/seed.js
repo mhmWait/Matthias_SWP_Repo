@@ -46,8 +46,6 @@ async function main() {
         await prisma.email.findMany({ select: { id: true } })
     ).map((_) => _.id);
 
-    
-
     for (let i = 0; i < emailIds.length * 4; i++) {
         await prisma.user.update({
             where: {
