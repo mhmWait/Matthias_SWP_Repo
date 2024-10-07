@@ -8,16 +8,15 @@
     </head>
 
     <body>
-        <h2>Meine Zoos</h2>
+        <h2>Abteilungen von Zoo</h2>
         <ul>
-            <% zoos.forEach(e=> { %>
+            <% abteilungen.forEach(e=> { %>
             <li data-id="<%= e.id %>">
-                <%= `Land: ${e.land} Stadt: ${e.stadt} Adresse: ${e.adresse}
-                (${e.baujahr})`%>
+                <%= `Name: ${e.name} ZooId: ${e.zooId}`%>
             </li>
-            <a href="http://localhost:3000/zoo/<%= e.id %>`">
-                <button type="button">Mehr Informationen erhalten:</button>
-            </a>
+            <button type="button" onclick="window.location.href=''">
+                Mehr Informationen erhalten:
+            </button>
             <% }) %>
         </ul>
     </body>
