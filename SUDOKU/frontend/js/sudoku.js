@@ -79,6 +79,7 @@ class Sudoku {
                 return true;
             }
             grid[row][col] = 0;
+            this.#recursion_depth++;
         }
         console.log("keine lösung");
         return false;
@@ -98,19 +99,13 @@ class Sudoku {
 
     printGrid(grid) {
         console.log(grid.map((row) => row.join(" ")).join("\n"));
+        this.renderInto(grid);
     }
 
     renderInto(domNode) {
         Array.from(domNode.querySelectorAll(".grid-item")).forEach(
             (e) => (e.innerHTML = "")
         );
-        for (let pos in this.grid.data) {
-            domNode.querySelector(`#${pos}`).innerText = this.grid.data[pos];
-        }
-        for (let pos in this.grid.data) {
-            const yo = document.getElementById(`#${pos}`);
-            yo.classList = "recursionDepth-" + this.recursionDepth;
-        }
     }
 }
 class Cell {
