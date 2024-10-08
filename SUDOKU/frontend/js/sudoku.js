@@ -11,77 +11,95 @@ class Sudoku {
         this.state = state;
     }
 
-    solveObvious() {
-        // so lange obviuos felder befüllen bis sich nix mehr tut
-        // a) massimo  // TODO fehler in schleife
-        const countInital = this.grid.cellCount();
-        let countBefore = countInital;
-        while (true) {
-            doMassimos(); // grid befüllen mit new Cell()'s
-            const countAfter = this.grid.cellCount();
-            if (countBefore === countAfter) break; // nix mehr zu holen
-            countBefore = countAfter;
-        }
-        const massimos = this.grid.cellCount() - countBefore;
-        if (massimos > 0) {
-            console.log(
-                `Massimo found ${massimos} new values / depth: ${
-                    this.#recursion_depth
-                }`
-            );
-        }
-        // b) amin / andreas
-        countBefore = this.grid.cellCount();
-        while (true) {
-            doAminAndreas(); // grid befüllen mit new Cell()'s
-            const countAfter = this.grid.cellCount();
-            if (countBefore === countAfter) break; // nix mehr zu holen
-            countBefore = countAfter;
-        }
-        const aminadreas = this.grid.cellCount() - countBefore;
-        if (aminadreas > 0) {
-            console.log(
-                `Amin / Andreas found ${aminadreas} new values / depth: ${
-                    this.#recursion_depth
-                }`
-            );
-        }
-        return this.grid.cellCount() - countInital;
+    // ich verstehe nicht wo das sudoku im frontend aufgerufen wird also wo in der script datei jemals das sudoku erstellt wird.
+    // wenn ich das sudoku versuche zu importieren um halt es aufzurufen dann geht nix mehr
+    //hab jetzt mal die logischen funktionen geschreiben mit einem array welche das grid dummyweise liefert aber ja
+
+    getArray() {
+        return this.grid.data;
     }
-    makeAssumptions() {
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators
-        // iterator bauen, der neue Sudoku Objekte liefert!!
-        for (sudoku of this.assumptions()) {
-            sudoku.solve();
-            if (this.state.foundSolutions <= this.state.maxSolutions) break;
-        }
-        return;
-    }
-    // probiere für jede Annahme das Sudoku neu zu lösen
-    solve() {
-        if (this.grid.isFull()) {
-            console.error(
-                "ERROR: Sudoku is already solved, but you called solve()."
-            );
-            return;
-        }
-        const newCellCount = this.solveObvious();
-        if (newCellCount > 0) {
-            console.log(
-                `obvious found ${newCellCount} new values at depth ${
-                    this.#recursion_depth
-                }`
-            );
-        }
-        if (this.grid.isFull()) {
-            if (!this.grid.isValid()) {
-                throw new Error("PANIC: Grid is full but invalid");
+
+    solveObvious(grid) {
+        let changed = true;
+
+        while (changed) {
+            changed = false;
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    if (grid[row][col] === 0) {
+                        const possibleValues = this.getPossibleValues(
+                            grid,
+                            row,
+                            col
+                        );
+                        if (possibleValues.length === 1) {
+                            grid[row][col] = possibleValues[0];
+                            changed = true;
+                        }
+                    }
+                }
             }
-            this.state.foundSolutions.push(this.grid);
-            return;
         }
-        this.makeAssumptions();
     }
+
+    getPossibleValues(grid, row, col) {
+        const possibleValues = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        for (let i = 0; i < 9; i++) {
+            possibleValues.delete(grid[row][i]);
+            possibleValues.delete(grid[i][col]);
+        }
+        const boxRow = Math.floor(row / 3) * 3;
+        const boxCol = Math.floor(col / 3) * 3;
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                possibleValues.delete(grid[boxRow + r][boxCol + c]);
+            }
+        }
+        return Array.from(possibleValues);
+    }
+
+    solveSudoku() {
+        grid = getArray();
+        this.solveObvious(grid);
+
+        const emptyCell = this.findEmptyCell(grid);
+        if (!emptyCell) {
+            console.log("Solved Sudoku:");
+            this.printGrid(grid);
+            return true;
+        }
+
+        const [row, col] = emptyCell;
+        const possibleValues = this.getPossibleValues(grid, row, col);
+
+        for (const value of possibleValues) {
+            grid[row][col] = value;
+            if (this.solveSudoku(grid)) {
+                return true;
+            }
+            grid[row][col] = 0;
+        }
+        console.log("keine lösung");
+        return false;
+    }
+
+    findEmptyCell(grid) {
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                if (grid[row][col] === 0) {
+                    return [row, col];
+                }
+            }
+        }
+        console.log("grid is leer");
+        return null;
+    }
+
+    printGrid(grid) {
+        console.log(grid.map((row) => row.join(" ")).join("\n"));
+    }
+
     renderInto(domNode) {
         Array.from(domNode.querySelectorAll(".grid-item")).forEach(
             (e) => (e.innerHTML = "")
@@ -139,7 +157,6 @@ class Grid {
         return true;
     }
     isValidRow(rowName) {
-        console.log("Checking row " + rowName);
         const set = new Set();
         for (let colName of colNames) {
             const cell = colName + rowName;
@@ -147,8 +164,6 @@ class Grid {
 
             if (set.has(this.data[cell])) return false;
             set.add(this.data[cell]);
-            console.log(set);
-            console.log("row " + rowName + " is valid");
         }
         return true;
     }
@@ -160,17 +175,14 @@ class Grid {
         return true;
     }
     isValidCol(colName) {
-        console.log("Checking col " + colName);
         const set = new Set();
         for (let rowName of rowNames) {
             const cell = colName + rowName;
             if (this.data[cell] == undefined) continue;
             if (set.has(this.data[cell])) {
-                console.log("col " + colName + " is invalid");
                 return false;
             }
             set.add(this.data[cell]);
-            console.log(set);
         }
         return true;
     }
@@ -207,25 +219,21 @@ class Grid {
                 keys.push(col[firstColIndex + j] + row[firstRowIndex + i]);
             }
         }
-        // console.log(keys);
+
         return keys;
     }
 
     isValid() {
         if (this.isValidRows() === false) {
-            console.log("Rows are invalid");
-
             return false;
         }
         if (this.isValidCols() === false) {
-            console.log("Cols are invalid");
             return false;
         }
         if (this.isValidSquares() === false) {
-            console.log("Squares are invalid");
             return false;
         }
-        console.log("Grid is valid");
+
         return true;
     }
 }

@@ -1,10 +1,11 @@
 // do whatever you like with the solutions
+
 const state = { error: "OK" };
 function initGrid() {
     //Matthias war hier
     state.sudoku = null;
     const grid = sudokuGrid$;
-    Array.from(sudokuGrid$.children).forEach(c => c.remove());
+    Array.from(sudokuGrid$.children).forEach((c) => c.remove());
     for (let i = 1; i <= 9; i++) {
         const subgrid = document.createElement("div");
         subgrid.classList.add("subgrid");
@@ -54,6 +55,7 @@ async function fetchSudoku(url) {
     resetState();
     const sudoku = new Sudoku({ data: obj, recursionDepth: 0, state });
     state.sudoku = sudoku;
+    console.log(sudoku);
 }
 
 // 3 - dom node refs
@@ -64,12 +66,11 @@ const beispieleSelect$ = document.getElementById("beispieleSelect");
 function render() {
     // den gesamten state in den div.
     // elementen anzeigen
-    console.log('render called');
+    console.log("render called");
     if (state.sudoku) {
         try {
             state.sudoku.renderInto(sudokuGrid$);
-        }
-        catch (e) {
+        } catch (e) {
             state.error = e.message;
         }
     }
@@ -91,10 +92,9 @@ async function onSelectSudoku() {
     try {
         await fetchSudoku(url);
         state.error = "OK";
-    }
-    catch (e) {
+    } catch (e) {
         state.error = e.message;
-    };
+    }
     render();
 }
 
@@ -102,3 +102,4 @@ async function onSelectSudoku() {
 // 8 - initial render
 initGrid();
 render();
+logSolvedSudoku();
