@@ -72,7 +72,7 @@ function findEmptyCell(grid) {
             }
         }
     }
-    console.log("grid is leer");
+
     return null;
 }
 
@@ -91,5 +91,5 @@ const testGrid = [
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 8, 0, 0, 7, 9],
 ];
-
+console.log(testGrid.map((row) => row.join(" ")).join("\n"));
 solveSudoku(testGrid);
