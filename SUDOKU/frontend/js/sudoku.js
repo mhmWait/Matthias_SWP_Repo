@@ -21,22 +21,21 @@ class Sudoku {
         const grid = Array.from({ length: 9 }, () => Array(9).fill(0));
 
         for (const key in dictionary) {
-            if (dictionary.hasOwnProperty(key)) {
-                const row = colNames.indexOf(key[0]);
-                const col = rowNames.indexOf(key[1]);
+            if (dictionary[key] !== 0) {
+                const col = colNames.indexOf(key[0]);
+
+                const row = rowNames.indexOf(key[1]);
                 grid[row][col] = dictionary[key];
             }
         }
         console.log(grid);
-        console.log("point 2");
-        this.solveSudoku(grid);
-        console.log("point 3");
-        return;
+        const NewGrid = this.solveSudoku(grid);
+        console.log(NewGrid);
     }
 
     solveObvious(grid) {
         let changed = true;
-        console.log("point 1");
+
         while (changed) {
             changed = false;
 
@@ -74,26 +73,12 @@ class Sudoku {
         return Array.from(possibleValues);
     }
 
-    solveSudoku(ImGrid) {
-        const grid = ImGrid;
-
+    solveSudoku(grid) {
         this.solveObvious(grid);
 
         const emptyCell = this.findEmptyCell(grid);
         if (!emptyCell) {
-            const rows = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
-            console.log("dadadadadadadadadad");
-            console.log(grid);
-            console.log("dadadadadadadadadad");
-            for (let row in rows) {
-                for (let k = 0; k < 9; k++) {
-                    if (grid[row][k] !== 0) {
-                        let a = rows[row] + k + 1;
-                        this.grid.data[a] = grid[row][k];
-                        console.log(this.grid.data);
-                    }
-                }
-            }
+            console.log("solution:");
 
             return true;
         }
@@ -107,7 +92,6 @@ class Sudoku {
                 return true;
             }
             grid[row][col] = 0;
-            this.#recursion_depth++;
         }
         console.log("keine lösung");
         return false;
@@ -121,19 +105,15 @@ class Sudoku {
                 }
             }
         }
-        console.log("grid is leer");
-        return null;
-    }
 
-    printGrid(grid) {
-        console.log(grid.map((row) => row.join(" ")).join("\n"));
+        return null;
     }
 
     renderInto(domNode) {
         Array.from(domNode.querySelectorAll(".grid-item")).forEach(
             (e) => (e.innerHTML = "")
         );
-        console.log("logiinggadada");
+
         console.log(this.dictionaryToSudokuArray(this.grid.data));
         for (let pos in this.grid.data) {
             domNode.querySelector(`#${pos}`).innerText = this.grid.data[pos];
