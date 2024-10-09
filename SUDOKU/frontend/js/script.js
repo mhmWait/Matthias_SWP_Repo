@@ -1,5 +1,5 @@
 // do whatever you like with the solutions
-
+import { Sudoku } from "./sudoku";
 const state = { error: "OK" };
 function initGrid() {
     //Matthias war hier
