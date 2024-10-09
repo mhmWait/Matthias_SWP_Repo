@@ -55,7 +55,6 @@ async function fetchSudoku(url) {
     resetState();
     const sudoku = new Sudoku({ data: obj, recursionDepth: 0, state });
     state.sudoku = sudoku;
-    console.log(sudoku);
 }
 
 // 3 - dom node refs

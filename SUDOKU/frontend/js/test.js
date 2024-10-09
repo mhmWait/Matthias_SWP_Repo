@@ -46,7 +46,15 @@ function solveSudoku(grid) {
     const emptyCell = this.findEmptyCell(grid);
     if (!emptyCell) {
         console.log("Solved Sudoku:");
-        this.printGrid(grid);
+        const rows = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                if (grid[row][col] !== 0) {
+                }
+            }
+        }
+
         return true;
     }
 

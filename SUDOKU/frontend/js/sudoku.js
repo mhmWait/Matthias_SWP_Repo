@@ -15,8 +15,20 @@ class Sudoku {
     // wenn ich das sudoku versuche zu importieren um halt es aufzurufen dann geht nix mehr
     //hab jetzt mal die logischen funktionen geschreiben mit einem array welche das grid dummyweise liefert aber ja
 
-    getArray() {
-        return this.grid.data;
+    dictionaryToSudokuArray(dictionary) {
+        const colNames = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+        const rowNames = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        const grid = Array.from({ length: 9 }, () => Array(9).fill(0));
+
+        for (const key in dictionary) {
+            if (dictionary.hasOwnProperty(key)) {
+                const row = colNames.indexOf(key[0]);
+                const col = rowNames.indexOf(key[1]);
+                grid[row][col] = dictionary[key];
+            }
+        }
+        this.solveSudoku(grid);
+        return;
     }
 
     solveObvious(grid) {
@@ -59,14 +71,25 @@ class Sudoku {
         return Array.from(possibleValues);
     }
 
-    solveSudoku() {
-        grid = getArray();
+    solveSudoku(ImGrid) {
+        grid = ImGrid;
         this.solveObvious(grid);
 
         const emptyCell = this.findEmptyCell(grid);
         if (!emptyCell) {
-            console.log("Solved Sudoku:");
-            this.printGrid(grid);
+            const rows = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    if (grid[row][col] !== 0) {
+                        this.grid.data.clear();
+                        a = rows[row] + col + 1;
+                        this.grid.data[a] = grid[row][col];
+                        console.log(this.grid.data);
+                    }
+                }
+            }
+
             return true;
         }
 
@@ -99,13 +122,17 @@ class Sudoku {
 
     printGrid(grid) {
         console.log(grid.map((row) => row.join(" ")).join("\n"));
-        this.renderInto(grid);
     }
 
     renderInto(domNode) {
         Array.from(domNode.querySelectorAll(".grid-item")).forEach(
             (e) => (e.innerHTML = "")
         );
+        console.log("logiinggadada");
+        console.log(this.dictionaryToSudokuArray(this.grid.data));
+        for (let pos in this.grid.data) {
+            domNode.querySelector(`#${pos}`).innerText = this.grid.data[pos];
+        }
     }
 }
 class Cell {
