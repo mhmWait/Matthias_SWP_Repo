@@ -27,13 +27,16 @@ class Sudoku {
                 grid[row][col] = dictionary[key];
             }
         }
+        console.log(grid);
+        console.log("point 2");
         this.solveSudoku(grid);
+        console.log("point 3");
         return;
     }
 
     solveObvious(grid) {
         let changed = true;
-
+        console.log("point 1");
         while (changed) {
             changed = false;
 
@@ -72,19 +75,21 @@ class Sudoku {
     }
 
     solveSudoku(ImGrid) {
-        grid = ImGrid;
+        const grid = ImGrid;
+
         this.solveObvious(grid);
 
         const emptyCell = this.findEmptyCell(grid);
         if (!emptyCell) {
             const rows = ["a", "b", "c", "d", "e", "f", "g", "h", "i"];
-
-            for (let row = 0; row < 9; row++) {
-                for (let col = 0; col < 9; col++) {
-                    if (grid[row][col] !== 0) {
-                        this.grid.data.clear();
-                        a = rows[row] + col + 1;
-                        this.grid.data[a] = grid[row][col];
+            console.log("dadadadadadadadadad");
+            console.log(grid);
+            console.log("dadadadadadadadadad");
+            for (let row in rows) {
+                for (let k = 0; k < 9; k++) {
+                    if (grid[row][k] !== 0) {
+                        let a = rows[row] + k + 1;
+                        this.grid.data[a] = grid[row][k];
                         console.log(this.grid.data);
                     }
                 }
