@@ -4,7 +4,7 @@ import {
     isWebSocketCloseEvent,
 } from "https://deno.land/std@0.106.0/ws/mod.ts";
 
-const PORT = 3741;
+const PORT = 5000;
 const server = serve({ port: PORT });
 
 interface Board {
@@ -34,8 +34,6 @@ let gameBoard: Board = {
 let currentTurn = 1;
 let gameResult: number = 0;
 const playerConnections = new Map<number, WebSocket>();
-
-console.log(`Server running at: http://localhost:${PORT}/`);
 
 for await (const req of server) {
     if (req.url === "/ws") {

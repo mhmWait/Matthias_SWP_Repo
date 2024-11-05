@@ -88,7 +88,6 @@
                 transform: scale(0.98);
             }
         </style>
-        <script src="script.js"></script>
     </head>
     <body>
         <!-- Player and Turn Information -->
@@ -125,9 +124,9 @@
 
             const playerInfo = document.getElementById("playerIdDisplay");
             const turnInfo = document.getElementById("turnDisplay");
-
+            const ip = window.location.hostname;
             const connectToWebSocket = () => {
-                wsConnection = new WebSocket("ws://localhost:3741/ws");
+                wsConnection = new WebSocket("ws://" + ip + ":5000/ws");
 
                 wsConnection.onopen = () =>
                     console.log("Connected to the server");

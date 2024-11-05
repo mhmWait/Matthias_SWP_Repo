@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login & Register Page</title>
+        <style>
+           
+            .remembered {
+                color: green;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" name="username" required />
+            <br /><br />
+            <label for="loginPassword">Password:</label>
+            <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                required
+            />
+            <br /><br />
+            <label>
+                <input type="checkbox" id="rememberMe" /> Remember Me
+            </label>
+            <br /><br />
+            <button type="submit">Login</button>
+        </form>
+
+        <h2>Register</h2>
+        <form id="registerForm">
+            <label for="registerUsername">Username:</label>
+            <input type="text" id="registerUsername" name="username" required />
+            <br /><br />
+            <label for="registerPassword">Password:</label>
+            <input
+                type="password"
+                id="registerPassword"
+                name="password"
+                required
+            />
+            <br /><br />
+            <button type="submit">Register</button>
+        </form>
+
+        <script>
+           
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(";").shift();
+            }
+
+            
+            const rememberedUser = getCookie("rememberedUser");
+            if (rememberedUser) {
+                document.getElementById("loginUsername").value = rememberedUser;
+                document.getElementById("rememberMe").checked = true;
+                document
+                    .getElementById("loginUsername")
+                    .classList.add("remembered");
+            }
+
+          
+            document
+                .getElementById("loginForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const username =
+                        document.getElementById("loginUsername").value;
+                    const password =
+                        document.getElementById("loginPassword").value;
+                    const rememberMe =
+                        document.getElementById("rememberMe").checked;
+
+                    const response = await fetch("/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            username,
+                            password,
+                            rememberMe,
+                        }),
+                    });
+                    const message = await response.text();
+                    alert(message);
+                });
+
+           
+            document
+                .getElementById("registerForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const username =
+                        document.getElementById("registerUsername").value;
+                    const password =
+                        document.getElementById("registerPassword").value;
+
+                    const response = await fetch("/register", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username, password }),
+                    });
+                    const message = await response.text();
+                    alert(message);
+                });
+        </script>
+    </body>
+</html>
