@@ -1,5 +1,5 @@
 // npm install express
-const express = require("express");
+const express = require("./$node_modules/express/index.js");
 
 // npm install mariadb
 const mariadb = require("mariadb");
