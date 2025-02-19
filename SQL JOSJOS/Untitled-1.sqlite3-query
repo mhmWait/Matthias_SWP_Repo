@@ -1,0 +1,13 @@
+-- database: ./test.sqlite
+CREATE TABLE test1 (
+    id INTEGER not NULL PRIMARY KEY AUTOINCREMENT,
+    Username TEXT,
+    buchid integer,
+    FOREIGN KEY (buchid) REFERENCES test2(buchid)
+);
+
+CREATE TABLE test2(
+    buchid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    buchtitel text
+);
+
