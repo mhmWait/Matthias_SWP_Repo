@@ -1,18 +1,14 @@
 const romans = require("romans");
 
-document.getElementById
+inputRoman = document.getElementById("inputRoman");
+inputNumber = document.getElementById("inputNumber");
+outputRoman = document.getElementById("outputRoman");
+outputNumber = document.getElementById("outputNumber");
 
-
-function Numberise(input) {
-    return romans.deromanize(input);
+function Numberise() {
+    outputRoman = romans.deromanize(inputRoman.value);
 }
 
-function Romanise(input) {
-    return romans.romanize(input);
+function Romanise() {
+    outputNumber.value = romans.romanize(inputNumber.value);
 }
-
-
-function main() {
-    
-}
-main();
