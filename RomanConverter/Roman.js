@@ -10,6 +10,6 @@ function Numberise(input) {
 
 function main() {
     console.log(Romanise("DCCCXXI"));
-    console.log(Numberise("621"));
+    console.log(Numberise("3999"));
 }
 main();
